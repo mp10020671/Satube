@@ -1,0 +1,17 @@
+var delayCreateScene = function () {
+    
+    var scene = new BABYLON.Scene(engine);  
+
+    BABYLON.SceneLoader.ImportMesh(
+        "",
+        //"https://raw.githubusercontent.com/BabylonJS/MeshesLibrary/master/",
+        " https://raw.githubusercontent.com/mp10020671/3D_Library/master/",
+        "Satube_Top.babylon",
+        scene,
+        function (meshes) {          
+            scene.createDefaultCameraOrLight(true, true, true);
+            scene.createDefaultEnvironment();
+    });
+
+    return scene;
+};
