@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/libktx.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); };
+        var createScene = function () {
+            // Playground needs to return at least an empty scene and default camera
+            var scene = new BABYLON.Scene(engine);
+            var camera = new BABYLON.Camera("camera1", BABYLON.Vector3.Zero(), scene);
+            	scene.clearColor = new BABYLON.Color4(0.02, 0.02, 0.02, 1.0);
+        	
+            scene.imageProcessingConfiguration.contrast = 1.6;
+        	scene.imageProcessingConfiguration.exposure = 0.6;
+        	scene.imageProcessingConfiguration.toneMappingEnabled = true;
+            var hdrTexture = new BABYLON.CubeTexture.CreateFromPrefilteredData("textures/environment.dds", scene);
+        	hdrTexture.gammaSpace = false;
+        
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/nlpg78sqry11flc/StubeOuter2_top_color.babylon",
+                "StubeOuter2_top_color.babylon",
+                scene,
+                function (meshes) {          
+                   
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/hwjaghrobhi6m4f/StubeOuter2_top_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/hiuhjsp4pckt9pu/akm_norm.tga");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/2jfcv44ojjjb3k7/Pole_Sien_center.babylon",
+                "Pole_Sien_center.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/sgbzkw6wtpd8ey1/Pole_Sien_center_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/l0z6to475we1k6q/Pole_Sien_center_2k_bump.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/2jfcv44ojjjb3k7/Pole_Sien_center.babylon",
+                "Pole_Sien_center.babylon",
+                scene,
+                function (meshes) {          
+                   
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/sgbzkw6wtpd8ey1/Pole_Sien_center_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/l0z6to475we1k6q/Pole_Sien_center_2k_bump.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/v9ntnu34v2c2rel/Soe03.babylon",
+                "Soe03.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/qm9zxp32coxa2k7/Soe03.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/h47fayx6oegtruu/uv_satupup_2.babylon",
+                "uv_satupup_2.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/t8j3zvsqoy63xc2/uv_satupup_2.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/tszf97umh5dafcr/Column_cen_base.babylon",
+                "Column_cen_base.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/wui2ifq7kthbmxh/Column_cen_base_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/ltrb62fqg9jawaf/uv_satupup_3.babylon",
+                "uv_satupup_3.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/m2c49kwq5jxwu9r/uv_satupup_3.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/rzhoqyyqicqyjcw/Big_Column.babylon",
+                "Big_Column.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/dvb6qeputon63le/Big_Column_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/0m9nxnmd0jzb8by/Big_Column_bump_2k.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/pc8n8k91v0uzk0m/Base_color.babylon",
+                "Base_color.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/dg5o449u5r071u2/Base_color_4k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/bm15q4pmqfd3l7j/StubeInner_top.babylon",
+                "StubeInner_top.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/0te5ffvi8l1d5kp/StubeInner_top_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/2b4ez135k609b5l/Floor_IN.babylon",
+                "Floor_IN.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/8z86xu9jat44dcb/Floor_IN.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/kc199v9vamw8h8o/Base_step2.babylon",
+                "Base_step2.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/8msbeyd8ay3lvfc/Base_step2_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/dz8b73u99a5uveg/Top_map_color.babylon",
+                "Top_map_color.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/aglb10d287j69gl/Top_map_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/n7fa83lcqq7e2a4/tan_Sien_center.babylon",
+                "tan_Sien_center.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/vpjrp7b7sz1rbx6/tan_Sien_center_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/74ar2z9nt9vfsfn/WoodE.babylon",
+                "WoodE.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/pcyqjm4hqz5hazq/WoodE_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/ie0sfsnep1c70o6/StubeOuter_top_color.babylon",
+                "StubeOuter_top_color.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/qyxnzhta2qz9zj0/StubeOuter_top_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/480e3nzrb5i1744/Column_base.babylon",
+                "Column_base.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/l47yyxbjpun1m2b/Column_base_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/zrjkr0ihqea4f22/Base_Pole_low.babylon",
+                "Base_Pole_low.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/iwqvca2m1z60vnd/Base_Pole_low.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/u0f2iktnrs7tsen/Top_map3.babylon",
+                "Top_map3.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/9lc5ylerko2ak4c/Top_map3_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/7pibx1jcilay82a/Top_map4.babylon",
+                "Top_map4.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/xh7xu5qfs8iqdzp/Top_map4_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/kmuqbqz44jjfiyq/Pole_Sien_city.babylon",
+                "Pole_Sien_city.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/9bezgwh2xbttz4i/Pole_Sien_city_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://www.dropbox.com/s/9ti9f7mun7n38vw/Pole_col_Sien_city.babylon",
+                "Pole_col_Sien_city.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/k86iw2atjmwlt30/Pole_col_Sien_city_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://www.dropbox.com/s/z8vq6p506w7h8o2/Acc01.babylon",
+                "Acc01.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/ir3dv26lwyjc7bf/Acc_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/j3g5629i50a4fvl/Base_4_direction.babylon",
+                "Base_4_direction.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/obf0jrds2vd9gst/Base_4_direction_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/hyqliu76gr8qp84/wall_dome_file26.babylon",
+                "wall_dome_file26.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/umnq6a3tr1vanlz/wall_dome_file24.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/rqr1hk3owgnyo31/Soe03_512.babylon",
+                "Soe03_512.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/n9alsx3bw0o14ef/Soe03_512.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/2maepr6t8ef8pmg/Loof_out.babylon",
+                "Loof_out.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/ivorg4o6src08nx/loof_Out.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+            BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/cps3krh3vtnohsg/Column_R.babylon",
+                "Column_R.babylon",
+                scene,
+                function (meshes) {          
+                    
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/7vfqw3dqsmqn337/Column_R_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+        
+            
+        
+        
+        
+        
+            
+        
+        
+        
+        
+        
+             
+        
+        BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/9aa77ixgvfiumxb/Base_inside.babylon",
+                "Base_inside.babylon",
+                scene,
+                function (meshes) {          
+                   
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/tqf70we3xh379kl/Base_inside_color_2k.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/nmy45rp3akf9bwh/Base_inside_bump_2k.png");
+                    //mat.specularTexture = new BABYLON.Texture("https://dl.dropbox.com/s/f3samm7vuvl0ez4/akm_spec.tga");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+        
+        
+        
+        
+        
+        
+            //final+cam
+             
+                    
+                
+                    
+           BABYLON.SceneLoader.ImportMesh(
+                "",
+                "https://dl.dropbox.com/s/r46rtnhsg8ghgtb/Floor_IN03.babylon",
+                "Floor_IN03.babylon",
+                scene,
+                function (meshes) {          
+                    scene.createDefaultCameraOrLight(true, true, true);
+                    scene.createDefaultEnvironment();
+                    var mat = new BABYLON.StandardMaterial("", scene);
+                    mat.diffuseTexture = new BABYLON.Texture("https://dl.dropbox.com/s/p1yffebtotxtoql/Floor_IN03.png");
+                    //mat.bumpTexture = new BABYLON.Texture("https://dl.dropbox.com/s/r3aija91ipdb91u/Soe03_bump_512.png");
+                    for (var m = 0; m < meshes.length; m++) {
+                        meshes[m].material = mat;
+                    }
+                }
+            );
+                    //
+                    // The main file has been loaded but let's wait for all ressources
+                    // to be ready (textures, etc.)
+                    scene.executeWhenReady(function () {
+                        // Setting the camera position at the center of the scene
+                        if (navigator.getVRDisplays) {
+                            camera = new BABYLON.WebVRFreeCamera("WebVRCamera",
+                                new BABYLON.Vector3(-0.8980848729619885, 1.1, 0.4818257550471734), scene);
+                        }
+                        else {
+                            camera = new BABYLON.VRDeviceOrientationFreeCamera("VRDeviceOrientation",
+                                new BABYLON.Vector3(-0.8980848729619885, 2, 0.4818257550471734), scene);
+                        }
+        
+                        scene.activeCamera = camera;
+                        // When you're clicking or touching the rendering canvas on the right
+                        scene.onPointerDown = function () {
+                            scene.onPointerDown = undefined;
+                            // Taking the default camera and using the embedded services
+                            // In this case: moving using touch, gamepad or mouse/keyboard
+                            scene.activeCamera.attachControl(canvas, true);
+                        };
+                    });
+                }
+            );
+            
+        
+            return scene;
+        };
+        
+        engine = createDefaultEngine();
+        if (!engine) throw 'engine should not be null.';
+        scene = createScene();;
+        sceneToRender = scene
+
+        engine.runRenderLoop(function () {
+            if (sceneToRender) {
+                sceneToRender.render();
+            }
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
